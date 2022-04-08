@@ -11,7 +11,54 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+.back-card{
+  background-color: #48b65a
+}
 
-.marca-foot {
-  height: 200px;
+.background-up {
+  background-color: #48b65a;
+  margin: 0;
+
+  height: 50vh;
+}
+.card-prod{
+  width: 18rem;
+  max-height: 288px;
+}
+
+.card-carrito{
+  width: 5rem;
+}
+
+.card-login {
+  position: relative;
+  bottom: 150px;
+  padding-top: 20px;
+  padding-bottom: 20px;
+  box-shadow: 0px 6px 15px 0px #7c7c7c;
+}
+
+.logo {
+  width: 50px;
+}
+.logo-nav {
+  width: 30px;
+}
+
+.overlay {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  color: white;
+  z-index: 1;
+}
+
+.text-disponible {
+  color: green;
+}
+.text-nodisponible {
+  color: red;
 }

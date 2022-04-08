@@ -33,7 +33,6 @@ const TableOrders = () => {
       });
     }
   };
-  console.log(orders.datos);
   return (
     <>
       {orders.loading ? (

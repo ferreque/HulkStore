@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 
-import { getOrder, postOrders, putOrders } from "../../helpers/orders";
+import { getOrders, postOrders, putOrders } from "../../helpers/orders";
 import { getProducts } from "../../helpers/products";
 
 const ModalOrders = ({ show, handleClose, actualizar }) => {
@@ -38,7 +38,7 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
       pedidoActivo: true,
     });
     if (actualizar) {
-      getOrder(actualizar).then((respuesta) => {
+      getOrders(actualizar).then((respuesta) => {
         setFormValue({
           producto: respuesta.order.product._id,
           precioTotal: respuesta.order.precioTotal,

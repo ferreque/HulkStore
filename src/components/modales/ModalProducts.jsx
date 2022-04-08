@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-
 import { getProduct, postProducts, putProducts } from "../../helpers/products";
 import { getCategories } from "../../helpers/categories";
 
@@ -11,7 +10,7 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
     nombre: "",
     precio: "",
     descripcion: "",
-    categoria: "",
+    categorie: "",
     disponible: true,
   });
 
@@ -26,16 +25,17 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
       nombre: "",
       precio: "",
       descripcion: "",
-      categoria: "",
+      categorie: "",
       disponible: true,
     });
+
     if (actualizar) {
       getProduct(actualizar).then((respuesta) => {
         setFormValue({
           nombre: respuesta.product.nombre,
           precio: respuesta.product.precio,
           descripcion: respuesta.product.descripcion,
-          categoria: respuesta.product.categorie._id,
+          categorie: respuesta.product.categorie,
           disponible: respuesta.product.disponible,
         });
       });
@@ -75,7 +75,7 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
           nombre: "",
           precio: "",
           descripcion: "",
-          categoria: "",
+          categorie: "",
           disponible: true,
         });
         handleClose();
@@ -94,14 +94,14 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
           nombre: "",
           precio: "",
           descripcion: "",
-          categoria: "",
+          categorie: "",
           disponible: true,
         });
+
         handleClose();
       });
     }
   };
-
   return (
     <div>
       <Modal show={show} onHide={handleClose} centered>
@@ -148,7 +148,7 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
               <label>Categorias</label>
               <select
                 className="form-select"
-                name="categoria"
+                name="categorie"
                 value={formValue.categorie}
                 onChange={handleChange}
                 required

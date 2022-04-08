@@ -19,7 +19,6 @@ const Carrito = () => {
   useEffect(() => {
     cargarCarrito();
   }, []);
-  console.log(carrito);
 
   const cargarCarrito = () => {
     carrito.forEach((product) => {
@@ -38,7 +37,7 @@ const Carrito = () => {
 
   return (
     <Container className="tituloPag inicioBackground text-center min-height mt-5 pt-5">
-      <h1>Productos en tu carrito:</h1>
+      <h1 className="mb-5">Productos en tu carrito:</h1>
       <TailSpin
         type="Circles"
         color="#36504f"

@@ -3,8 +3,10 @@ import Swal from "sweetalert2";
 
 const CardProd = ({ products }) => {
   let lista = JSON.parse(localStorage.getItem("carrito")) || [];
+
   const agregarACarrito = async (id) => {
     lista.push(id);
+
     localStorage.setItem("carrito", JSON.stringify(lista));
     Swal.fire({
       title: "Producto agregado al carrito",
@@ -19,12 +21,14 @@ const CardProd = ({ products }) => {
           <div className="col" key={product._id}>
             <div className="card h-100">
               <img
-                src="https://es.himgs.com/imagenes/estar-bien/20190111135512/cafe-beneficioso-perjudicial/0-635-445/cafenutricion-t.jpg"
-                className="card-img-top"
+                src={product.imagen}
+                className="card-prod "
                 alt={product.nombre}
               />
               <div className="card-body">
                 <h5 className="card-title">{product.nombre}</h5>
+                <h5>Precio: ${product.precio}</h5>
+                <h5>En carrito: {product.cantidad}</h5>
                 <strong>{product.categorie.nombre}</strong>
                 <p className="card-text">{product.descripcion}</p>
               </div>
