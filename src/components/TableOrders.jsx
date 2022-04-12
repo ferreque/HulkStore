@@ -9,6 +9,7 @@ const TableOrders = () => {
     datos: [],
     loading: true,
   });
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -45,8 +46,7 @@ const TableOrders = () => {
             <thead>
               <tr>
                 <th scope="col">Estado</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Productos</th>
+                <th scope="col">Productos/Cantidad</th>
                 <th scope="col">Provincia</th>
                 <th scope="col">Localidad</th>
                 <th scope="col">Dirección</th>
@@ -69,8 +69,12 @@ const TableOrders = () => {
               {orders.datos.map((order) => (
                 <tr key={order._id}>
                   <th scope="row">{order.estado}</th>
-                  <th scope="row">{order.cantidad}</th>
-                  <th scope="row">{order.product.nombre}</th>
+                  {order.products.map((producto) => (
+                    <tr key={producto._id} className="font-weight-bold">
+                      <th>{producto.nombre}</th>
+                      <th>{producto.cantidad}</th>
+                    </tr>
+                  ))}
                   <th scope="row">{order.provincia}</th>
                   <th scope="row">{order.localidad}</th>
                   <th scope="row">{order.direccionEnvio}</th>
@@ -101,6 +105,7 @@ const TableOrders = () => {
           </table>
           <div className="d-flex justify-content-center">
             <ModalOrders
+              orders={orders}
               show={show}
               handleClose={handleClose}
               actualizar={actualizar}

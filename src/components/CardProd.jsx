@@ -4,16 +4,23 @@ import Swal from "sweetalert2";
 const CardProd = ({ products }) => {
   let lista = JSON.parse(localStorage.getItem("carrito")) || [];
 
-  const agregarACarrito = async (id) => {
-    lista.push(id);
-
-    localStorage.setItem("carrito", JSON.stringify(lista));
+  const agregarACarrito = async (prod) => {
+    if (lista.indexOf(prod) !== -1) {
+      let indice = lista.indexOf(prod);
+      lista[indice].cantidad += 1;
+      localStorage.setItem("carrito", JSON.stringify(lista));
+    } else {
+      prod.cantidad = 1;
+      lista.push(prod);
+      localStorage.setItem("carrito", JSON.stringify(lista));
+    }
     Swal.fire({
       title: "Producto agregado al carrito",
       icon: "success",
       confirmButtonColor: "#3085d6",
     });
   };
+  console.log(products);
   return (
     <>
       <div className="row row-cols-1 row-cols-md-3 g-4">
@@ -28,8 +35,10 @@ const CardProd = ({ products }) => {
               <div className="card-body">
                 <h5 className="card-title">{product.nombre}</h5>
                 <h5>Precio: ${product.precio}</h5>
-                <h5>En carrito: {product.cantidad}</h5>
+                <h5>Disponibles: {product.stock} unidades</h5>
+
                 <strong>{product.categorie.nombre}</strong>
+
                 <p className="card-text">{product.descripcion}</p>
               </div>
               <div className="card-footer ">
@@ -38,7 +47,7 @@ const CardProd = ({ products }) => {
                     <span className="text-disponible">Disponible</span>
                     <button
                       className="btn btn-success"
-                      onClick={() => agregarACarrito(product._id)}
+                      onClick={() => agregarACarrito(product)}
                     >
                       Agregar +
                     </button>

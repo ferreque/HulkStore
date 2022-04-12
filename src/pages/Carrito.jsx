@@ -22,7 +22,7 @@ const Carrito = () => {
 
   const cargarCarrito = () => {
     carrito.forEach((product) => {
-      getProduct(product, token).then((respuesta) => {
+      getProduct(product._id, token).then((respuesta) => {
         pedido.push(respuesta.product);
       });
       if (carrito !== []) {

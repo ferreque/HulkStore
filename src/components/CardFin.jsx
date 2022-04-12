@@ -1,27 +1,32 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { Form, Card, Container, Button, Image } from "react-bootstrap";
 import { postOrders } from "../helpers/orders";
 import { useNavigate } from "react-router-dom";
 import { putProducts } from "../helpers/products";
+
 const token =
   JSON.parse(localStorage.getItem("auth")) &&
   JSON.parse(localStorage.getItem("auth")).token;
 
 const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
+  let sumaTotal = 0;
+
   const navigate = useNavigate();
+
   const usuario = JSON.parse(localStorage.getItem("auth")).usuario;
+  const carrito = JSON.parse(localStorage.getItem("carrito"));
+
+  const [total, setTotal] = useState(0);
+
   useEffect(() => {
     setEco(true);
+    setTotal(sumaTotal);
     setEco(false);
   });
-  const setCantidad = () => {
-    pedidos.forEach((pedido) => {
-      pedido.cantidad = 1;
-    });
-  };
-  setCantidad();
-  console.log(pedidos);
+  for (let i = 0; i < carrito.length; i++) {
+    sumaTotal += carrito[i].precio * carrito[i].cantidad;
+  }
 
   const getRandomNumberBetween = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
@@ -29,12 +34,23 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
 
   const confirmarPedido = () => {
     let orden = {
-      products: pedidos,
+      products: carrito,
       provincia: usuario.provincia,
       localidad: usuario.localidad,
       direccionEnvio: usuario.direccionEnvio,
-      precioTotal: "",
+      precioTotal: total,
     };
+
+    carrito.forEach((product) => {
+      product.stock = product.stock - product.cantidad;
+      putProducts(product._id, product).then((respuesta) => {
+        if (respuesta.errors) {
+          return window.alert(respuesta.errors[0].msg);
+        } else {
+          console.log(respuesta);
+        }
+      });
+    });
 
     postOrders(orden).then((respuesta) => {
       if (respuesta.errors) {
@@ -50,14 +66,11 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
         localStorage.setItem("carrito", JSON.stringify([]));
       }
     });
-
-    localStorage.setItem("carrito", JSON.stringify([]));
-    console.log(orden);
   };
 
   return (
     <Container className="text-center row">
-      {pedidos.map((pedido, index) => (
+      {carrito.map((pedido, index) => (
         <Card
           key={getRandomNumberBetween(1, 1000000)}
           className="mb-3 mi-4 justify-center col-4 mx-auto"
@@ -89,10 +102,10 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
             onClick={() => {
               const _pedidos =
                 JSON.parse(localStorage.getItem("carrito")) || [];
-              localStorage.setItem(
+              const filt = localStorage.setItem(
                 "carrito",
                 JSON.stringify(
-                  _pedidos.map((e) => e).filter((e) => e !== pedido._id)
+                  _pedidos.map((e) => e).filter((e) => e._id !== pedido._id)
                 )
               );
               setPedidos(pedidos.filter((e) => pedido._id !== e._id));
@@ -102,6 +115,12 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
           </Button>
         </Card>
       ))}
+
+      <div className="row mb-2 col-12">
+        <h5 className="mb-4 pull-right mt-3 mx-auto">
+          Precio total del pedido:{sumaTotal}
+        </h5>
+      </div>
 
       <Card.Title className="mb-2 col-12">{pedidos.nombre}</Card.Title>
       <Button

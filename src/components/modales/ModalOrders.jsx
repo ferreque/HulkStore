@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
 
-import { getOrders, postOrders, putOrders } from "../../helpers/orders";
+import { getOrder, postOrders, putOrders } from "../../helpers/orders";
 import { getProducts } from "../../helpers/products";
 
-const ModalOrders = ({ show, handleClose, actualizar }) => {
+const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
+  let listCarrito = [];
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [formValue, setFormValue] = useState({
-    producto: "",
+    productos: "",
     precioTotal: "",
-    cantidad: "",
     estado: "",
     direccionEnvio: "",
-    codigoPostal: "",
     localidad: "",
     provincia: "",
     pedidoActivo: true,
@@ -27,25 +26,27 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
 
   useEffect(() => {
     setFormValue({
-      producto: "",
+      productos: "",
       precioTotal: "",
-      cantidad: "",
+
       estado: "",
       direccionEnvio: "",
-      codigoPostal: "",
       localidad: "",
       provincia: "",
       pedidoActivo: true,
     });
     if (actualizar) {
-      getOrders(actualizar).then((respuesta) => {
+      getOrder(actualizar).then((respuesta) => {
+        respuesta.order.products.forEach((element) => {
+          listCarrito.push(element.nombre);
+        });
+
         setFormValue({
-          producto: respuesta.order.product._id,
+          productos: listCarrito,
           precioTotal: respuesta.order.precioTotal,
-          cantidad: respuesta.order.cantidad,
+
           estado: respuesta.order.estado,
           direccionEnvio: respuesta.order.direccionEnvio,
-          codigoPostal: respuesta.order.codigoPostal,
           localidad: respuesta.order.localidad,
           provincia: respuesta.order.provincia,
           pedidoActivo: respuesta.order.pedidoActivo,
@@ -84,12 +85,11 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
         }
         setLoading(false);
         setFormValue({
-          producto: "",
+          productos: "",
           precioTotal: "",
-          cantidad: "",
+
           estado: "",
           direccionEnvio: "",
-          codigoPostal: "",
           localidad: "",
           provincia: "",
           pedidoActivo: true,
@@ -107,12 +107,11 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
         }
         setLoading(false);
         setFormValue({
-          producto: "",
+          productos: "",
           precioTotal: "",
-          cantidad: "",
+
           estado: "",
           direccionEnvio: "",
-          codigoPostal: "",
           localidad: "",
           provincia: "",
           pedidoActivo: true,
@@ -122,6 +121,7 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
     }
   };
 
+  console.log(formValue);
   return (
     <div>
       <Modal show={show} onHide={handleClose} centered>
@@ -133,12 +133,15 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
         <form onSubmit={handleSubmit}>
           <Modal.Body>
             <div className="form-group">
+              <label>Productos en carrito</label>
+              <h5>{formValue.productos}</h5>
+            </div>
+            <div className="form-group">
               <label>Provincia</label>
               <input
                 type="text"
                 name="provincia"
                 className="form-control"
-                placeholder="Tucumán"
                 required
                 value={formValue.provincia}
                 onChange={handleChange}
@@ -150,7 +153,6 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
                 type="text"
                 name="localidad"
                 className="form-control"
-                placeholder="Chicligasta"
                 required
                 value={formValue.localidad}
                 onChange={handleChange}
@@ -162,14 +164,13 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
                 type="text"
                 name="direccionEnvio"
                 className="form-control"
-                placeholder="Lavalle 951 pb B"
                 required
                 value={formValue.direccionEnvio}
                 onChange={handleChange}
               />
             </div>
             <div className="form-group">
-              <label>Precio Total</label>
+              <label>Precio Total $</label>
               <input
                 type="number"
                 name="precioTotal"
@@ -179,17 +180,6 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
               />
             </div>
             <div className="form-group">
-              <label>Código postal</label>
-              <input
-                type="number"
-                name="codigoPostal"
-                className="form-control"
-                value={formValue.codigoPostal}
-                onChange={handleChange}
-              />
-            </div>
-
-            <div className="form-group">
               <label>Descripción</label>
               <textarea
                 type="text"
@@ -198,22 +188,6 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
                 value={formValue.descripcion}
                 onChange={handleChange}
               />
-            </div>
-            <div className="form-group">
-              <label>Producto</label>
-              <select
-                className="form-select"
-                name="producto"
-                value={formValue.product}
-                onChange={handleChange}
-                required
-              >
-                {products.map((product) => (
-                  <option key={product._id} value={product._id}>
-                    {product.nombre}
-                  </option>
-                ))}
-              </select>
             </div>
             <div className="form-group">
               <label>Estado</label>

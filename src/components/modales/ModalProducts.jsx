@@ -12,6 +12,7 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
     descripcion: "",
     categorie: "",
     disponible: true,
+    stock: "",
   });
 
   useEffect(() => {
@@ -27,6 +28,7 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
       descripcion: "",
       categorie: "",
       disponible: true,
+      stock: "",
     });
 
     if (actualizar) {
@@ -37,6 +39,7 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
           descripcion: respuesta.product.descripcion,
           categorie: respuesta.product.categorie,
           disponible: respuesta.product.disponible,
+          stock: respuesta.product.stock,
         });
       });
     }
@@ -77,6 +80,7 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
           descripcion: "",
           categorie: "",
           disponible: true,
+          stock: "",
         });
         handleClose();
       });
@@ -96,6 +100,7 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
           descripcion: "",
           categorie: "",
           disponible: true,
+          stock: "",
         });
 
         handleClose();
@@ -141,6 +146,16 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
                 name="descripcion"
                 className="form-control"
                 value={formValue.descripcion}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Stock</label>
+              <textarea
+                type="number"
+                name="stock"
+                className="form-control"
+                value={formValue.stock}
                 onChange={handleChange}
               />
             </div>

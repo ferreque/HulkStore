@@ -9,6 +9,7 @@ const TableProducts = () => {
     datos: [],
     loading: true,
   });
+
   const [show, setShow] = useState(false);
 
   const handleClose = () => setShow(false);
@@ -51,6 +52,7 @@ const TableProducts = () => {
               <tr>
                 <th scope="col">Nombre</th>
                 <th scope="col">Precio</th>
+                <th scope="col">Stock</th>
                 <th scope="col">Categoria</th>
                 <th className="d-flex justify-content-end">
                   <button
@@ -71,6 +73,7 @@ const TableProducts = () => {
                 <tr key={product._id}>
                   <th scope="row">{product.nombre}</th>
                   <th scope="row">{product.precio}</th>
+                  <th scope="row">{product.stock}</th>
                   <th scope="row">{product.categorie.nombre}</th>
                   <td>
                     <button
