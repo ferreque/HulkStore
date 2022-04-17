@@ -58,7 +58,7 @@ const Login = () => {
 
   return (
     <div className="container-fluid">
-      <div className="row  background-up">
+      <div className="row background-up">
         <div className="col d-flex justify-content-center ">
           <h1 className="mt-5 text-white">Hulk-Store</h1>
         </div>
@@ -93,8 +93,8 @@ const Login = () => {
                   />
                 </div>
                 <div className="nav-item">
-                  <Link className="nav-link link-success ps-0" to="/">
-                    ¿Olvidaste tu contraseña?
+                  <Link className="nav-link link-warning ps-0" to="/registro">
+                    Create una cuenta!
                   </Link>
                 </div>
                 <div className="d-grid gap-1">

@@ -90,7 +90,7 @@ const TableProducts = () => {
                     </button>
                     <button
                       className="btn btn-danger ms-2"
-                      onClick={() => borrarProducts(products._id)}
+                      onClick={() => borrarProducts(product._id)}
                     >
                       <i className="fa fa-trash-o" aria-hidden="true"></i>
                     </button>

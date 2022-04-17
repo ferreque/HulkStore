@@ -32,7 +32,6 @@ export const postProducts = async (data) => {
     },
   });
   const datos = await respuesta.json();
-
   return datos;
 };
 

@@ -16,6 +16,7 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
 
   const usuario = JSON.parse(localStorage.getItem("auth")).usuario;
   const carrito = JSON.parse(localStorage.getItem("carrito"));
+  // const [continuo, setContinuo] = useState({ valor: 0 });
 
   const [total, setTotal] = useState(0);
 
@@ -33,6 +34,7 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
   };
 
   const confirmarPedido = () => {
+    let stockNegativo;
     let orden = {
       products: carrito,
       provincia: usuario.provincia,
@@ -40,32 +42,59 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
       direccionEnvio: usuario.direccionEnvio,
       precioTotal: total,
     };
-
     carrito.forEach((product) => {
-      product.stock = product.stock - product.cantidad;
-      putProducts(product._id, product).then((respuesta) => {
+      product.stock -= product.cantidad;
+      console.log(product.stock);
+      if (product.stock < 0) {
+        stockNegativo = "si";
+        // setContinuo(continuo);
+
+        Swal.fire({
+          title: `Stock insuficiente, solo quedan ${
+            product.stock + product.cantidad
+          } unidades de ${product.nombre}`,
+          icon: "error",
+          confirmButtonColor: "#3085d6",
+        });
+
+        const redireccion = () => navigate("../", { replace: true });
+        localStorage.setItem("carrito", JSON.stringify([]));
+        return redireccion();
+      }
+    });
+
+    if (stockNegativo !== "si") {
+      carrito.forEach((product) => {
+        putProducts(product._id, product).then((respuesta) => {
+          if (respuesta.errors) {
+            return window.alert(respuesta.errors[0].msg);
+          } else {
+            Swal.fire({
+              title: "Stock de producto editado",
+              icon: "success",
+              confirmButtonColor: "#3085d6",
+            });
+          }
+        });
+      });
+    }
+
+    if (stockNegativo !== "si") {
+      postOrders(orden).then((respuesta) => {
         if (respuesta.errors) {
           return window.alert(respuesta.errors[0].msg);
         } else {
-          console.log(respuesta);
+          Swal.fire({
+            title: "Pedido confirmado",
+            icon: "success",
+            confirmButtonColor: "#3085d6",
+          });
+          const redireccion = () => navigate("../", { replace: true });
+          redireccion();
+          localStorage.setItem("carrito", JSON.stringify([]));
         }
       });
-    });
-
-    postOrders(orden).then((respuesta) => {
-      if (respuesta.errors) {
-        return window.alert(respuesta.errors[0].msg);
-      } else {
-        Swal.fire({
-          title: "Pedido confirmado",
-          icon: "success",
-          confirmButtonColor: "#3085d6",
-        });
-        const redireccion = () => navigate("../", { replace: true });
-        redireccion();
-        localStorage.setItem("carrito", JSON.stringify([]));
-      }
-    });
+    }
   };
 
   return (

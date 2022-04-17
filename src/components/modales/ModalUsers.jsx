@@ -7,6 +7,9 @@ const ModalUser = ({ show, handleClose }) => {
     nombre: "",
     email: "",
     password: "",
+    provincia: "",
+    localidad: "",
+    direccionEnvio: "",
     rol: "",
   });
 
@@ -32,6 +35,9 @@ const ModalUser = ({ show, handleClose }) => {
         nombre: "",
         email: "",
         password: "",
+        provincia: "",
+        localidad: "",
+        direccionEnvio: "",
         rol: "",
       });
       handleClose();
@@ -79,6 +85,42 @@ const ModalUser = ({ show, handleClose }) => {
                 autoComplete="off"
                 required
                 value={formValue.password}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Provincia</label>
+              <input
+                type="text"
+                name="provincia"
+                className="form-control"
+                placeholder="Ej: Tucumán"
+                required
+                value={formValue.provincia}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Localidad</label>
+              <input
+                type="text"
+                name="localidad"
+                className="form-control"
+                placeholder="Ej: Chicligasta"
+                required
+                value={formValue.localidad}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Dirección</label>
+              <input
+                type="text"
+                name="direccionEnvio"
+                className="form-control"
+                placeholder="Ej: Lavalle 952"
+                required
+                value={formValue.direccionEnvio}
                 onChange={handleChange}
               />
             </div>

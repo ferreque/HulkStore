@@ -121,7 +121,6 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
     }
   };
 
-  console.log(formValue);
   return (
     <div>
       <Modal show={show} onHide={handleClose} centered>

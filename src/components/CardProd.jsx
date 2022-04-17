@@ -1,6 +1,5 @@
 import React from "react";
 import Swal from "sweetalert2";
-
 const CardProd = ({ products }) => {
   let lista = JSON.parse(localStorage.getItem("carrito")) || [];
 
@@ -20,7 +19,6 @@ const CardProd = ({ products }) => {
       confirmButtonColor: "#3085d6",
     });
   };
-  console.log(products);
   return (
     <>
       <div className="row row-cols-1 row-cols-md-3 g-4">
@@ -42,7 +40,7 @@ const CardProd = ({ products }) => {
                 <p className="card-text">{product.descripcion}</p>
               </div>
               <div className="card-footer ">
-                {product.disponible ? (
+                {product.stock > 0 ? (
                   <div className="d-flex justify-content-between align-items-center">
                     <span className="text-disponible">Disponible</span>
                     <button

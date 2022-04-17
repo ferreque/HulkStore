@@ -7,10 +7,12 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
   const [loading, setLoading] = useState(false);
   const [categories, setCategories] = useState([]);
   const [formValue, setFormValue] = useState({
+    contador: 0,
     nombre: "",
     precio: "",
     descripcion: "",
     categorie: "",
+    imagen: "",
     disponible: true,
     stock: "",
   });
@@ -23,10 +25,12 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
 
   useEffect(() => {
     setFormValue({
+      contador: 0,
       nombre: "",
       precio: "",
       descripcion: "",
       categorie: "",
+      imagen: "",
       disponible: true,
       stock: "",
     });
@@ -34,10 +38,12 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
     if (actualizar) {
       getProduct(actualizar).then((respuesta) => {
         setFormValue({
+          contador: respuesta.product.contador,
           nombre: respuesta.product.nombre,
           precio: respuesta.product.precio,
           descripcion: respuesta.product.descripcion,
           categorie: respuesta.product.categorie,
+          imagen: respuesta.product.imagen,
           disponible: respuesta.product.disponible,
           stock: respuesta.product.stock,
         });
@@ -75,10 +81,12 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
         }
         setLoading(false);
         setFormValue({
+          contador: 0,
           nombre: "",
           precio: "",
           descripcion: "",
           categorie: "",
+          imagen: "",
           disponible: true,
           stock: "",
         });
@@ -95,10 +103,12 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
         }
         setLoading(false);
         setFormValue({
+          contador: 0,
           nombre: "",
           precio: "",
           descripcion: "",
           categorie: "",
+          imagen: "",
           disponible: true,
           stock: "",
         });
@@ -160,19 +170,33 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
               />
             </div>
             <div className="form-group">
+              <label>Imagen</label>
+              <input
+                type="text"
+                name="imagen"
+                className="form-control"
+                placeholder=""
+                value={formValue.imagen}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
               <label>Categorias</label>
               <select
                 className="form-select"
                 name="categorie"
+                aria-label="Default select example"
                 value={formValue.categorie}
                 onChange={handleChange}
                 required
               >
-                {categories.map((categorie) => (
-                  <option key={categorie._id} value={categorie._id}>
-                    {categorie.nombre}
-                  </option>
-                ))}
+                <option defaultValue="">Elige una categoría</option>
+                <option value="6244b8bd4151f9c8eed8ed4f">Comics</option>
+                <option value="6244bb794151f9c8eed8ed63">Accesorios</option>
+                <option value="6244bb424151f9c8eed8ed59">Juguetes</option>
+                <option value="6244bb6b4151f9c8eed8ed5f">Camisetas</option>
+                <option value="6244bb354151f9c8eed8ed55">Vasos</option>
+                <option value="624dae5273efb1b5638bdcb7">Otros</option>
               </select>
             </div>
 

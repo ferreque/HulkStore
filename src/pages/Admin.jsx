@@ -3,6 +3,7 @@ import TableCategories from "../components/TableCategories";
 import TableProducts from "../components/TableProducts";
 import TableUsers from "../components/TableUsers";
 import TableOrders from "../components/TableOrders";
+import { HulkNavbar } from "../components/common/navbar/HulkNavbar";
 
 const Admin = () => {
   const [state, setState] = useState({ rol: "" });
@@ -20,36 +21,40 @@ const Admin = () => {
   }
 
   return (
-    <div className="container">
-      <div className="row">
-        <div className="col">
-          <h1>ADMINISTRACION</h1>
-          <hr />
+    <>
+      <HulkNavbar />
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <h1>ADMINISTRACION</h1>
+            <hr />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-6 ">
+            <h3>Usuarios</h3>
+            <TableUsers />
+          </div>
+          <div className="col-10 col-md-4 offset-md-1">
+            <h3>Categorias</h3>
+            <TableCategories />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <h3>Productos</h3>
+            <TableProducts />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <h3>Pedidos</h3>
+            <TableOrders />
+          </div>
         </div>
       </div>
-      <div className="row">
-        <div className="col-6 ">
-          <h3>Usuarios</h3>
-          <TableUsers />
-        </div>
-        <div className="col-10 col-md-4 offset-md-1">
-          <h3>Categorias</h3>
-          <TableCategories />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <h3>Productos</h3>
-          <TableProducts />
-        </div>
-      </div>
-      <div className="row">
-        <div className="col">
-          <h3>Pedidos</h3>
-          <TableOrders />
-        </div>
-      </div>
-    </div>
+    </>
   );
 };
+
 export default Admin;
