@@ -6,7 +6,7 @@ export const HulkNavbar = () => {
   const [state, setState] = useState({ rol: "" });
   useEffect(() => {
     const datos = JSON.parse(localStorage.getItem("auth")) || [];
-    setState(datos.usuario);
+    setState(datos.user);
   }, []);
   const cerrarSesion = () => {
     localStorage.setItem("auth", JSON.stringify(""));

@@ -4,31 +4,29 @@ import ModalUsers from "../components/modales/ModalUsers";
 
 const TableUsers = () => {
   const [actualizar, setActualizar] = useState("");
-
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [users, setUsers] = useState({
     datos: [],
     loading: true,
   });
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   useEffect(() => {
     getUsers().then((respuesta) => {
       setUsers({
-        datos: respuesta.usuarios,
+        datos: respuesta.users,
         loading: false,
       });
     });
   }, []);
 
-  const borrarUsers = (id) => {
-    let usuar = users.datos.find((user) => {
+  const borrarUser = (id) => {
+    let usuario = users.datos.find((user) => {
       return user._id === id;
     });
     let validar = window.confirm(
-      `Esta seguro que desea eliminar al usuario ${usuar.nombre}?`
+      `Esta seguro que desea eliminar al usuario ${usuario.name}?`
     );
     if (validar) {
       deleteUsers(id).then((respuesta) => {
@@ -68,12 +66,12 @@ const TableUsers = () => {
             <tbody>
               {users.datos.map((users) => (
                 <tr key={users._id}>
-                  <th scope="row">{users.nombre}</th>
+                  <th scope="row">{users.name}</th>
                   <th scope="row">{users.email}</th>
                   <td>
                     <button
                       className="btn btn-danger ms-2"
-                      onClick={() => borrarUsers(users._id)}
+                      onClick={() => borrarUser(users._id)}
                     >
                       <i className="fa fa-trash-o" aria-hidden="true"></i>
                     </button>

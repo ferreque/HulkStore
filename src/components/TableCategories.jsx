@@ -4,13 +4,11 @@ import ModalCategories from "../components/modales/ModalCategories";
 
 const TableCategories = () => {
   const [actualizar, setActualizar] = useState("");
-
   const [categories, setCategories] = useState({
     datos: [],
     loading: true,
   });
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
 
@@ -28,7 +26,7 @@ const TableCategories = () => {
       return categorie._id === id;
     });
     let validar = window.confirm(
-      `Esta seguro que desea eliminar la categoría ${categ.nombre}?`
+      `Esta seguro que desea eliminar la categoría ${categ.name}?`
     );
     if (validar) {
       deleteCategories(id).then((respuesta) => {
@@ -66,7 +64,7 @@ const TableCategories = () => {
             <tbody>
               {categories.datos.map((categorie) => (
                 <tr key={categorie._id}>
-                  <th scope="row">{categorie.nombre}</th>
+                  <th scope="row">{categorie.name}</th>
                   <td>
                     <button
                       className="btn btn-warning ms-2"

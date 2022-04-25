@@ -4,16 +4,13 @@ import ModalProducts from "../components/modales/ModalProducts";
 
 const TableProducts = () => {
   const [actualizar, setActualizar] = useState("");
-
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [products, setProducts] = useState({
     datos: [],
     loading: true,
   });
-
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   useEffect(() => {
     getProducts().then((respuesta) => {
@@ -29,7 +26,7 @@ const TableProducts = () => {
       return product._id === id;
     });
     let validar = window.confirm(
-      `Esta seguro que desea eliminar el producto ${prod.nombre}?`
+      `Esta seguro que desea eliminar el producto ${prod.name}?`
     );
     if (validar) {
       deleteProducts(id).then((respuesta) => {
@@ -71,10 +68,10 @@ const TableProducts = () => {
             <tbody>
               {products.datos.map((product) => (
                 <tr key={product._id}>
-                  <th scope="row">{product.nombre}</th>
-                  <th scope="row">{product.precio}</th>
+                  <th scope="row">{product.name}</th>
+                  <th scope="row">{product.price}</th>
                   <th scope="row">{product.stock}</th>
-                  <th scope="row">{product.categorie.nombre}</th>
+                  <th scope="row">{product.categorie.name}</th>
                   <td>
                     <button
                       className="btn btn-warning ms-2"

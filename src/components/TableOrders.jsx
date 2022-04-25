@@ -4,16 +4,13 @@ import ModalOrders from "../components/modales/ModalOrders";
 
 const TableOrders = () => {
   const [actualizar, setActualizar] = useState("");
-
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [orders, setOrders] = useState({
     datos: [],
     loading: true,
   });
-
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   useEffect(() => {
     getOrders().then((respuesta) => {
@@ -68,17 +65,17 @@ const TableOrders = () => {
             <tbody>
               {orders.datos.map((order) => (
                 <tr key={order._id}>
-                  <th scope="row">{order.estado}</th>
+                  <th scope="row">{order.status}</th>
                   {order.products.map((producto) => (
                     <tr key={producto._id} className="font-weight-bold">
-                      <th>{producto.nombre}</th>
-                      <th>{producto.cantidad}</th>
+                      <th>{producto.name}</th>
+                      <th>{producto.amount}</th>
                     </tr>
                   ))}
-                  <th scope="row">{order.provincia}</th>
-                  <th scope="row">{order.localidad}</th>
-                  <th scope="row">{order.direccionEnvio}</th>
-                  <th scope="row">{order.precioTotal}</th>
+                  <th scope="row">{order.province}</th>
+                  <th scope="row">{order.location}</th>
+                  <th scope="row">{order.shippingAddress}</th>
+                  <th scope="row">{order.totalPrice}</th>
                   <td>
                     <button
                       className="btn btn-warning ms-2"

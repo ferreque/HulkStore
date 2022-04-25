@@ -4,18 +4,18 @@ import { Modal, Button } from "react-bootstrap";
 import { getOrder, postOrders, putOrders } from "../../helpers/orders";
 import { getProducts } from "../../helpers/products";
 
-const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
+const ModalOrders = ({ show, handleClose, actualizar }) => {
   let listCarrito = [];
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [formValue, setFormValue] = useState({
-    productos: "",
-    precioTotal: "",
-    estado: "",
-    direccionEnvio: "",
-    localidad: "",
-    provincia: "",
-    pedidoActivo: true,
+    products: "",
+    totalPrice: "",
+    status: "",
+    shippingAddress: "",
+    location: "",
+    province: "",
+    activeOrder: true,
   });
 
   useEffect(() => {
@@ -26,37 +26,35 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
 
   useEffect(() => {
     setFormValue({
-      productos: "",
-      precioTotal: "",
-
-      estado: "",
-      direccionEnvio: "",
-      localidad: "",
-      provincia: "",
-      pedidoActivo: true,
+      products: "",
+      totalPrice: "",
+      status: "",
+      shippingAddress: "",
+      location: "",
+      province: "",
+      activeOrder: true,
     });
     if (actualizar) {
       getOrder(actualizar).then((respuesta) => {
         respuesta.order.products.forEach((element) => {
-          listCarrito.push(element.nombre);
+          listCarrito.push(element.name);
         });
 
         setFormValue({
-          productos: listCarrito,
-          precioTotal: respuesta.order.precioTotal,
-
-          estado: respuesta.order.estado,
-          direccionEnvio: respuesta.order.direccionEnvio,
-          localidad: respuesta.order.localidad,
-          provincia: respuesta.order.provincia,
-          pedidoActivo: respuesta.order.pedidoActivo,
+          products: listCarrito,
+          totalPrice: respuesta.order.totalPrice,
+          status: respuesta.order.status,
+          shippingAddress: respuesta.order.shippingAddress,
+          location: respuesta.order.location,
+          province: respuesta.order.province,
+          activeOrder: respuesta.order.activeOrder,
         });
       });
     }
   }, [actualizar]);
 
   const handleChange = ({ target }) => {
-    if (target.name === "pedidoActivo") {
+    if (target.name === "activeOrder") {
       setFormValue({
         ...formValue,
         [target.name]: target.checked,
@@ -85,14 +83,13 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
         }
         setLoading(false);
         setFormValue({
-          productos: "",
-          precioTotal: "",
-
-          estado: "",
-          direccionEnvio: "",
-          localidad: "",
-          provincia: "",
-          pedidoActivo: true,
+          products: "",
+          totalPrice: "",
+          status: "",
+          shippingAddress: "",
+          location: "",
+          province: "",
+          activeOrder: true,
         });
         handleClose();
       });
@@ -107,14 +104,13 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
         }
         setLoading(false);
         setFormValue({
-          productos: "",
-          precioTotal: "",
-
-          estado: "",
-          direccionEnvio: "",
-          localidad: "",
-          provincia: "",
-          pedidoActivo: true,
+          products: "",
+          totalPrice: "",
+          status: "",
+          shippingAddress: "",
+          location: "",
+          province: "",
+          activeOrder: true,
         });
         handleClose();
       });
@@ -133,16 +129,16 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
           <Modal.Body>
             <div className="form-group">
               <label>Productos en carrito</label>
-              <h5>{formValue.productos}</h5>
+              <h5>{formValue.products}</h5>
             </div>
             <div className="form-group">
               <label>Provincia</label>
               <input
                 type="text"
-                name="provincia"
+                name="province"
                 className="form-control"
                 required
-                value={formValue.provincia}
+                value={formValue.province}
                 onChange={handleChange}
               />
             </div>
@@ -150,10 +146,10 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
               <label>Localidad</label>
               <input
                 type="text"
-                name="localidad"
+                name="location"
                 className="form-control"
                 required
-                value={formValue.localidad}
+                value={formValue.location}
                 onChange={handleChange}
               />
             </div>
@@ -161,10 +157,10 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
               <label>Direccion de envio</label>
               <input
                 type="text"
-                name="direccionEnvio"
+                name="shippingAddress"
                 className="form-control"
                 required
-                value={formValue.direccionEnvio}
+                value={formValue.shippingAddress}
                 onChange={handleChange}
               />
             </div>
@@ -172,9 +168,9 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
               <label>Precio Total $</label>
               <input
                 type="number"
-                name="precioTotal"
+                name="totalPrice"
                 className="form-control"
-                value={formValue.precioTotal}
+                value={formValue.totalPrice}
                 onChange={handleChange}
               />
             </div>
@@ -182,9 +178,9 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
               <label>Descripción</label>
               <textarea
                 type="text"
-                name="descripcion"
+                name="description"
                 className="form-control"
-                value={formValue.descripcion}
+                value={formValue.description}
                 onChange={handleChange}
               />
             </div>
@@ -192,9 +188,9 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
               <label>Estado</label>
               <select
                 className="form-select"
-                name="estado"
+                name="status"
                 aria-label="Default select example"
-                value={formValue.estado}
+                value={formValue.status}
                 onChange={handleChange}
                 required
               >
@@ -208,10 +204,10 @@ const ModalOrders = ({ show, handleClose, actualizar, orders }) => {
               <input
                 className="form-check-input"
                 type="checkbox"
-                checked={formValue.pedidoActivo}
-                value={formValue.pedidoActivo}
+                checked={formValue.activeOrder}
+                value={formValue.activeOrder}
                 onChange={handleChange}
-                name="pedidoActivo"
+                name="activeOrder"
               />
               <label>Pedido Activo</label>
             </div>

@@ -7,13 +7,13 @@ import Swal from "sweetalert2";
 const Registro = () => {
   const navigate = useNavigate();
   const [formValue, setFormValue] = useState({
-    nombre: "",
+    name: "",
     email: "",
     password: "",
     password2: "",
-    provincia: "",
-    localidad: "",
-    direccionEnvio: "",
+    province: "",
+    location: "",
+    shippingAddress: "",
     rol: "USER_ROLE",
   });
   const handleChange = (e) => {
@@ -69,8 +69,8 @@ const Registro = () => {
         >
           <Form.Label className="text-white">Nombre de Usuario:</Form.Label>
           <Form.Control
-            name="nombre"
-            value={formValue.nombre}
+            name="name"
+            value={formValue.name}
             onChange={handleChange}
             required
             type="text"
@@ -118,8 +118,8 @@ const Registro = () => {
           </Form.Group>
           <Form.Label className="text-dark">Provincia:</Form.Label>
           <Form.Control
-            name="provincia"
-            value={formValue.provincia}
+            name="province"
+            value={formValue.province}
             onChange={handleChange}
             required
             type="text"
@@ -127,8 +127,8 @@ const Registro = () => {
           />
           <Form.Label className="text-dark">Localidad:</Form.Label>
           <Form.Control
-            name="localidad"
-            value={formValue.localidad}
+            name="location"
+            value={formValue.location}
             onChange={handleChange}
             required
             type="text"
@@ -136,8 +136,8 @@ const Registro = () => {
           />
           <Form.Label className="text-dark">Dirección:</Form.Label>
           <Form.Control
-            name="direccionEnvio"
-            value={formValue.direccionEnvio}
+            name="shippingAddress"
+            value={formValue.shippingAddress}
             onChange={handleChange}
             required
             type="text"

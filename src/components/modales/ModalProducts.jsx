@@ -8,12 +8,12 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
   const [categories, setCategories] = useState([]);
   const [formValue, setFormValue] = useState({
     contador: 0,
-    nombre: "",
-    precio: "",
-    descripcion: "",
+    name: "",
+    price: "",
+    description: "",
     categorie: "",
     imagen: "",
-    disponible: true,
+    available: true,
     stock: "",
   });
 
@@ -26,25 +26,25 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
   useEffect(() => {
     setFormValue({
       contador: 0,
-      nombre: "",
-      precio: "",
-      descripcion: "",
+      name: "",
+      price: "",
+      description: "",
       categorie: "",
       imagen: "",
-      disponible: true,
+      available: true,
       stock: "",
     });
 
     if (actualizar) {
       getProduct(actualizar).then((respuesta) => {
         setFormValue({
-          contador: respuesta.product.contador,
-          nombre: respuesta.product.nombre,
-          precio: respuesta.product.precio,
-          descripcion: respuesta.product.descripcion,
+          contador: respuesta.product.amount,
+          name: respuesta.product.name,
+          price: respuesta.product.price,
+          description: respuesta.product.description,
           categorie: respuesta.product.categorie,
           imagen: respuesta.product.imagen,
-          disponible: respuesta.product.disponible,
+          available: respuesta.product.available,
           stock: respuesta.product.stock,
         });
       });
@@ -52,7 +52,7 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
   }, [actualizar]);
 
   const handleChange = ({ target }) => {
-    if (target.name === "disponible") {
+    if (target.name === "available") {
       setFormValue({
         ...formValue,
         [target.name]: target.checked,
@@ -82,12 +82,12 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
         setLoading(false);
         setFormValue({
           contador: 0,
-          nombre: "",
-          precio: "",
-          descripcion: "",
+          name: "",
+          price: "",
+          description: "",
           categorie: "",
           imagen: "",
-          disponible: true,
+          available: true,
           stock: "",
         });
         handleClose();
@@ -104,12 +104,12 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
         setLoading(false);
         setFormValue({
           contador: 0,
-          nombre: "",
-          precio: "",
-          descripcion: "",
+          name: "",
+          price: "",
+          description: "",
           categorie: "",
           imagen: "",
-          disponible: true,
+          available: true,
           stock: "",
         });
 
@@ -131,11 +131,11 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
               <label>Nombre</label>
               <input
                 type="text"
-                name="nombre"
+                name="name"
                 className="form-control"
                 placeholder="Ej: Hulk: La fuerza verde."
                 required
-                value={formValue.nombre}
+                value={formValue.name}
                 onChange={handleChange}
               />
             </div>
@@ -143,9 +143,9 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
               <label>Precio</label>
               <input
                 type="number"
-                name="precio"
+                name="price"
                 className="form-control"
-                value={formValue.precio}
+                value={formValue.price}
                 onChange={handleChange}
               />
             </div>
@@ -153,9 +153,9 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
               <label>Descripción</label>
               <textarea
                 type="text"
-                name="descripcion"
+                name="description"
                 className="form-control"
-                value={formValue.descripcion}
+                value={formValue.description}
                 onChange={handleChange}
               />
             </div>
@@ -204,10 +204,10 @@ const ModalProducts = ({ show, handleClose, actualizar }) => {
               <input
                 className="form-check-input"
                 type="checkbox"
-                checked={formValue.disponible}
-                value={formValue.disponible}
+                checked={formValue.available}
+                value={formValue.available}
                 onChange={handleChange}
-                name="disponible"
+                name="available"
               />
               <label>Disponible</label>
             </div>

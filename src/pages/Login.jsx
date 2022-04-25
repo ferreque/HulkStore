@@ -5,16 +5,12 @@ import { postAuth } from "../helpers/authentication";
 const Login = () => {
   const isMounted = useRef(true);
   const navigate = useNavigate();
-
+  const [btnDisable, setBtnDisable] = useState(false);
+  const [login, setLogin] = useState({});
   const [formValue, setformValue] = useState({
     email: "",
     password: "",
   });
-
-  const [btnDisable, setBtnDisable] = useState(false);
-
-  const [login, setLogin] = useState({});
-
   useEffect(() => {
     if (login.token) {
       localStorage.setItem("auth", JSON.stringify(login));

@@ -6,10 +6,10 @@ const CardProd = ({ products }) => {
   const agregarACarrito = async (prod) => {
     if (lista.indexOf(prod) !== -1) {
       let indice = lista.indexOf(prod);
-      lista[indice].cantidad += 1;
+      lista[indice].amount += 1;
       localStorage.setItem("carrito", JSON.stringify(lista));
     } else {
-      prod.cantidad = 1;
+      prod.amount = 1;
       lista.push(prod);
       localStorage.setItem("carrito", JSON.stringify(lista));
     }
@@ -28,16 +28,16 @@ const CardProd = ({ products }) => {
               <img
                 src={product.imagen}
                 className="card-prod "
-                alt={product.nombre}
+                alt={product.name}
               />
               <div className="card-body">
-                <h5 className="card-title">{product.nombre}</h5>
-                <h5>Precio: ${product.precio}</h5>
+                <h5 className="card-title">{product.name}</h5>
+                <h5>Precio: ${product.price}</h5>
                 <h5>Disponibles: {product.stock} unidades</h5>
 
-                <strong>{product.categorie.nombre}</strong>
+                <strong>{product.categorie.name}</strong>
 
-                <p className="card-text">{product.descripcion}</p>
+                <p className="card-text">{product.description}</p>
               </div>
               <div className="card-footer ">
                 {product.stock > 0 ? (

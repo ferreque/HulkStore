@@ -10,17 +10,17 @@ import {
 const ModalCategories = ({ show, handleClose, actualizar }) => {
   const [loading, setLoading] = useState(false);
   const [formValue, setFormValue] = useState({
-    nombre: "",
+    name: "",
   });
 
   useEffect(() => {
     setFormValue({
-      nombre: "",
+      name: "",
     });
     if (actualizar) {
       getCategorie(actualizar).then((respuesta) => {
         setFormValue({
-          nombre: respuesta.categorie.nombre,
+          name: respuesta.categorie.name,
         });
       });
     }
@@ -28,7 +28,7 @@ const ModalCategories = ({ show, handleClose, actualizar }) => {
 
   const handleChange = (e) => {
     setFormValue({
-      nombre: e.target.value,
+      name: e.target.value,
     });
   };
 
@@ -48,7 +48,7 @@ const ModalCategories = ({ show, handleClose, actualizar }) => {
         }
         setLoading(false);
         setFormValue({
-          nombre: "",
+          name: "",
         });
         handleClose();
       });
@@ -63,7 +63,7 @@ const ModalCategories = ({ show, handleClose, actualizar }) => {
         }
         setLoading(false);
         setFormValue({
-          nombre: "",
+          name: "",
         });
         handleClose();
       });
@@ -82,11 +82,11 @@ const ModalCategories = ({ show, handleClose, actualizar }) => {
               <label>Nombre</label>
               <input
                 type="text"
-                name="nombre"
+                name="name"
                 className="form-control"
                 placeholder="Ej: Comics"
                 required
-                value={formValue.nombre}
+                value={formValue.name}
                 onChange={handleChange}
               />
             </div>

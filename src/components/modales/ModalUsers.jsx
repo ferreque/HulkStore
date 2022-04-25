@@ -4,12 +4,12 @@ import { Modal, Button } from "react-bootstrap";
 const ModalUser = ({ show, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const [formValue, setFormValue] = useState({
-    nombre: "",
+    name: "",
     email: "",
     password: "",
-    provincia: "",
-    localidad: "",
-    direccionEnvio: "",
+    province: "",
+    location: "",
+    shippingAddress: "",
     rol: "",
   });
 
@@ -32,12 +32,12 @@ const ModalUser = ({ show, handleClose }) => {
       }
       setLoading(false);
       setFormValue({
-        nombre: "",
+        name: "",
         email: "",
         password: "",
-        provincia: "",
-        localidad: "",
-        direccionEnvio: "",
+        province: "",
+        location: "",
+        shippingAddress: "",
         rol: "",
       });
       handleClose();
@@ -56,11 +56,11 @@ const ModalUser = ({ show, handleClose }) => {
               <label>Nombre</label>
               <input
                 type="text"
-                name="nombre"
+                name="name"
                 className="form-control"
                 placeholder="Ej: Juan Peralta"
                 required
-                value={formValue.nombre}
+                value={formValue.name}
                 onChange={handleChange}
               />
             </div>
@@ -92,11 +92,11 @@ const ModalUser = ({ show, handleClose }) => {
               <label>Provincia</label>
               <input
                 type="text"
-                name="provincia"
+                name="province"
                 className="form-control"
                 placeholder="Ej: Tucumán"
                 required
-                value={formValue.provincia}
+                value={formValue.province}
                 onChange={handleChange}
               />
             </div>
@@ -104,11 +104,11 @@ const ModalUser = ({ show, handleClose }) => {
               <label>Localidad</label>
               <input
                 type="text"
-                name="localidad"
+                name="location"
                 className="form-control"
                 placeholder="Ej: Chicligasta"
                 required
-                value={formValue.localidad}
+                value={formValue.location}
                 onChange={handleChange}
               />
             </div>
@@ -116,11 +116,11 @@ const ModalUser = ({ show, handleClose }) => {
               <label>Dirección</label>
               <input
                 type="text"
-                name="direccionEnvio"
+                name="shippingAddress"
                 className="form-control"
                 placeholder="Ej: Lavalle 952"
                 required
-                value={formValue.direccionEnvio}
+                value={formValue.shippingAddress}
                 onChange={handleChange}
               />
             </div>

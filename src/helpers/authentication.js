@@ -1,4 +1,4 @@
-const url = "http://localhost:8080/api/auth/login";
+const url = "https://store-hulk.herokuapp.com/api/auth/login";
 
 export const postAuth = async (data) => {
   const respuesta = await fetch(url, {

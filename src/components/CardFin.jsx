@@ -10,40 +10,36 @@ const token =
   JSON.parse(localStorage.getItem("auth")).token;
 
 const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
-  let sumaTotal = 0;
-
-  const navigate = useNavigate();
-
-  const usuario = JSON.parse(localStorage.getItem("auth")).usuario;
-  const carrito = JSON.parse(localStorage.getItem("carrito"));
-  // const [continuo, setContinuo] = useState({ valor: 0 });
-
   const [total, setTotal] = useState(0);
-
   useEffect(() => {
     setEco(true);
     setTotal(sumaTotal);
     setEco(false);
   });
+  const navigate = useNavigate();
+  const user = JSON.parse(localStorage.getItem("auth")).user;
+  const carrito = JSON.parse(localStorage.getItem("carrito"));
+  let sumaTotal = 0;
+
   for (let i = 0; i < carrito.length; i++) {
-    sumaTotal += carrito[i].precio * carrito[i].cantidad;
+    sumaTotal += carrito[i].price * carrito[i].amount;
   }
 
   const getRandomNumberBetween = (min, max) => {
     return Math.floor(Math.random() * (max - min + 1) + min);
   };
-
   const confirmarPedido = () => {
     let stockNegativo;
+    console.log(user);
     let orden = {
       products: carrito,
-      provincia: usuario.provincia,
-      localidad: usuario.localidad,
-      direccionEnvio: usuario.direccionEnvio,
-      precioTotal: total,
+      location: user.location,
+      province: user.province,
+      shippingAddress: user.shippingAddress,
+      totalPrice: total,
     };
     carrito.forEach((product) => {
-      product.stock -= product.cantidad;
+      product.stock -= product.amount;
       console.log(product.stock);
       if (product.stock < 0) {
         stockNegativo = "si";
@@ -51,8 +47,8 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
 
         Swal.fire({
           title: `Stock insuficiente, solo quedan ${
-            product.stock + product.cantidad
-          } unidades de ${product.nombre}`,
+            product.stock + product.amount
+          } unidades de ${product.name}`,
           icon: "error",
           confirmButtonColor: "#3085d6",
         });
@@ -80,6 +76,7 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
     }
 
     if (stockNegativo !== "si") {
+      console.log(orden);
       postOrders(orden).then((respuesta) => {
         if (respuesta.errors) {
           return window.alert(respuesta.errors[0].msg);
@@ -106,8 +103,8 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
         >
           <Card.Body>
             <Image className="card-carrito" src={pedido.imagen} />
-            <Card.Title className="mb-2">{pedido.nombre}</Card.Title>
-            <Card.Text>$ {pedido.precio}</Card.Text>
+            <Card.Title className="mb-2">{pedido.name}</Card.Title>
+            <Card.Text>$ {pedido.price}</Card.Text>
             <Form>
               <Form.Control
                 onChange={(e) => {
@@ -122,7 +119,7 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
               />
             </Form>
             <Card.Text>
-              <h5>Cantidad: {pedido.cantidad}</h5>
+              <h5>Cantidad: {pedido.amount}</h5>
             </Card.Text>
           </Card.Body>
           <Button
@@ -151,7 +148,7 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
         </h5>
       </div>
 
-      <Card.Title className="mb-2 col-12">{pedidos.nombre}</Card.Title>
+      <Card.Title className="mb-2 col-12">{pedidos.name}</Card.Title>
       <Button
         className="mb-4 pull-right mt-3 mx-auto"
         variant="light"

@@ -15,7 +15,7 @@ const Inicio = () => {
   const filtro = (categ) => {
     getProducts().then((respuesta) => {
       let prodFiltrado = respuesta.products.filter(
-        (product) => product.categorie.nombre === categ
+        (product) => product.categorie.name === categ
       );
       setProducts(prodFiltrado);
     });
@@ -72,9 +72,9 @@ const Inicio = () => {
             >
               Otros
             </a>
-            <button className="nav-link text-dark bg-warning " href="/carrito">
+            <a className="nav-link text-dark bg-warning " href="/carrito">
               Carrito
-            </button>
+            </a>
           </div>
         </div>
       </div>
