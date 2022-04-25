@@ -4,15 +4,13 @@ import ModalOrders from "../components/modales/ModalOrders";
 
 const TableOrders = () => {
   const [actualizar, setActualizar] = useState("");
-
+  const [show, setShow] = useState(false);
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   const [orders, setOrders] = useState({
     datos: [],
     loading: true,
   });
-  const [show, setShow] = useState(false);
-
-  const handleClose = () => setShow(false);
-  const handleShow = () => setShow(true);
 
   useEffect(() => {
     getOrders().then((respuesta) => {
@@ -33,7 +31,6 @@ const TableOrders = () => {
       });
     }
   };
-  console.log(orders.datos);
   return (
     <>
       {orders.loading ? (
@@ -46,8 +43,7 @@ const TableOrders = () => {
             <thead>
               <tr>
                 <th scope="col">Estado</th>
-                <th scope="col">Cantidad</th>
-                <th scope="col">Productos</th>
+                <th scope="col">Productos/Cantidad</th>
                 <th scope="col">Provincia</th>
                 <th scope="col">Localidad</th>
                 <th scope="col">Dirección</th>
@@ -69,13 +65,17 @@ const TableOrders = () => {
             <tbody>
               {orders.datos.map((order) => (
                 <tr key={order._id}>
-                  <th scope="row">{order.estado}</th>
-                  <th scope="row">{order.cantidad}</th>
-                  <th scope="row">{order.product.nombre}</th>
-                  <th scope="row">{order.provincia}</th>
-                  <th scope="row">{order.localidad}</th>
-                  <th scope="row">{order.direccionEnvio}</th>
-                  <th scope="row">{order.precioTotal}</th>
+                  <th scope="row">{order.status}</th>
+                  {order.products.map((producto) => (
+                    <tr key={producto._id} className="font-weight-bold">
+                      <th>{producto.name}</th>
+                      <th>{producto.amount}</th>
+                    </tr>
+                  ))}
+                  <th scope="row">{order.province}</th>
+                  <th scope="row">{order.location}</th>
+                  <th scope="row">{order.shippingAddress}</th>
+                  <th scope="row">{order.totalPrice}</th>
                   <td>
                     <button
                       className="btn btn-warning ms-2"
@@ -102,6 +102,7 @@ const TableOrders = () => {
           </table>
           <div className="d-flex justify-content-center">
             <ModalOrders
+              orders={orders}
               show={show}
               handleClose={handleClose}
               actualizar={actualizar}

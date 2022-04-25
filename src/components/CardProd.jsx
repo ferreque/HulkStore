@@ -1,11 +1,18 @@
 import React from "react";
 import Swal from "sweetalert2";
-
 const CardProd = ({ products }) => {
   let lista = JSON.parse(localStorage.getItem("carrito")) || [];
-  const agregarACarrito = async (id) => {
-    lista.push(id);
-    localStorage.setItem("carrito", JSON.stringify(lista));
+
+  const agregarACarrito = async (prod) => {
+    if (lista.indexOf(prod) !== -1) {
+      let indice = lista.indexOf(prod);
+      lista[indice].amount += 1;
+      localStorage.setItem("carrito", JSON.stringify(lista));
+    } else {
+      prod.amount = 1;
+      lista.push(prod);
+      localStorage.setItem("carrito", JSON.stringify(lista));
+    }
     Swal.fire({
       title: "Producto agregado al carrito",
       icon: "success",
@@ -19,22 +26,26 @@ const CardProd = ({ products }) => {
           <div className="col" key={product._id}>
             <div className="card h-100">
               <img
-                src="https://es.himgs.com/imagenes/estar-bien/20190111135512/cafe-beneficioso-perjudicial/0-635-445/cafenutricion-t.jpg"
-                className="card-img-top"
-                alt={product.nombre}
+                src={product.imagen}
+                className="card-prod "
+                alt={product.name}
               />
               <div className="card-body">
-                <h5 className="card-title">{product.nombre}</h5>
-                <strong>{product.categorie.nombre}</strong>
-                <p className="card-text">{product.descripcion}</p>
+                <h5 className="card-title">{product.name}</h5>
+                <h5>Precio: ${product.price}</h5>
+                <h5>Disponibles: {product.stock} unidades</h5>
+
+                <strong>{product.categorie.name}</strong>
+
+                <p className="card-text">{product.description}</p>
               </div>
               <div className="card-footer ">
-                {product.disponible ? (
+                {product.stock > 0 ? (
                   <div className="d-flex justify-content-between align-items-center">
                     <span className="text-disponible">Disponible</span>
                     <button
                       className="btn btn-success"
-                      onClick={() => agregarACarrito(product._id)}
+                      onClick={() => agregarACarrito(product)}
                     >
                       Agregar +
                     </button>

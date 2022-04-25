@@ -5,18 +5,17 @@ import { getOrder, postOrders, putOrders } from "../../helpers/orders";
 import { getProducts } from "../../helpers/products";
 
 const ModalOrders = ({ show, handleClose, actualizar }) => {
+  let listCarrito = [];
   const [loading, setLoading] = useState(false);
   const [products, setProducts] = useState([]);
   const [formValue, setFormValue] = useState({
-    producto: "",
-    precioTotal: "",
-    cantidad: "",
-    estado: "",
-    direccionEnvio: "",
-    codigoPostal: "",
-    localidad: "",
-    provincia: "",
-    pedidoActivo: true,
+    products: "",
+    totalPrice: "",
+    status: "",
+    shippingAddress: "",
+    location: "",
+    province: "",
+    activeOrder: true,
   });
 
   useEffect(() => {
@@ -27,35 +26,35 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
 
   useEffect(() => {
     setFormValue({
-      producto: "",
-      precioTotal: "",
-      cantidad: "",
-      estado: "",
-      direccionEnvio: "",
-      codigoPostal: "",
-      localidad: "",
-      provincia: "",
-      pedidoActivo: true,
+      products: "",
+      totalPrice: "",
+      status: "",
+      shippingAddress: "",
+      location: "",
+      province: "",
+      activeOrder: true,
     });
     if (actualizar) {
       getOrder(actualizar).then((respuesta) => {
+        respuesta.order.products.forEach((element) => {
+          listCarrito.push(element.name);
+        });
+
         setFormValue({
-          producto: respuesta.order.product._id,
-          precioTotal: respuesta.order.precioTotal,
-          cantidad: respuesta.order.cantidad,
-          estado: respuesta.order.estado,
-          direccionEnvio: respuesta.order.direccionEnvio,
-          codigoPostal: respuesta.order.codigoPostal,
-          localidad: respuesta.order.localidad,
-          provincia: respuesta.order.provincia,
-          pedidoActivo: respuesta.order.pedidoActivo,
+          products: listCarrito,
+          totalPrice: respuesta.order.totalPrice,
+          status: respuesta.order.status,
+          shippingAddress: respuesta.order.shippingAddress,
+          location: respuesta.order.location,
+          province: respuesta.order.province,
+          activeOrder: respuesta.order.activeOrder,
         });
       });
     }
   }, [actualizar]);
 
   const handleChange = ({ target }) => {
-    if (target.name === "pedidoActivo") {
+    if (target.name === "activeOrder") {
       setFormValue({
         ...formValue,
         [target.name]: target.checked,
@@ -84,15 +83,13 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
         }
         setLoading(false);
         setFormValue({
-          producto: "",
-          precioTotal: "",
-          cantidad: "",
-          estado: "",
-          direccionEnvio: "",
-          codigoPostal: "",
-          localidad: "",
-          provincia: "",
-          pedidoActivo: true,
+          products: "",
+          totalPrice: "",
+          status: "",
+          shippingAddress: "",
+          location: "",
+          province: "",
+          activeOrder: true,
         });
         handleClose();
       });
@@ -107,15 +104,13 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
         }
         setLoading(false);
         setFormValue({
-          producto: "",
-          precioTotal: "",
-          cantidad: "",
-          estado: "",
-          direccionEnvio: "",
-          codigoPostal: "",
-          localidad: "",
-          provincia: "",
-          pedidoActivo: true,
+          products: "",
+          totalPrice: "",
+          status: "",
+          shippingAddress: "",
+          location: "",
+          province: "",
+          activeOrder: true,
         });
         handleClose();
       });
@@ -133,14 +128,17 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
         <form onSubmit={handleSubmit}>
           <Modal.Body>
             <div className="form-group">
+              <label>Productos en carrito</label>
+              <h5>{formValue.products}</h5>
+            </div>
+            <div className="form-group">
               <label>Provincia</label>
               <input
                 type="text"
-                name="provincia"
+                name="province"
                 className="form-control"
-                placeholder="Tucumán"
                 required
-                value={formValue.provincia}
+                value={formValue.province}
                 onChange={handleChange}
               />
             </div>
@@ -148,11 +146,10 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
               <label>Localidad</label>
               <input
                 type="text"
-                name="localidad"
+                name="location"
                 className="form-control"
-                placeholder="Chicligasta"
                 required
-                value={formValue.localidad}
+                value={formValue.location}
                 onChange={handleChange}
               />
             </div>
@@ -160,68 +157,40 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
               <label>Direccion de envio</label>
               <input
                 type="text"
-                name="direccionEnvio"
+                name="shippingAddress"
                 className="form-control"
-                placeholder="Lavalle 951 pb B"
                 required
-                value={formValue.direccionEnvio}
+                value={formValue.shippingAddress}
                 onChange={handleChange}
               />
             </div>
             <div className="form-group">
-              <label>Precio Total</label>
+              <label>Precio Total $</label>
               <input
                 type="number"
-                name="precioTotal"
+                name="totalPrice"
                 className="form-control"
-                value={formValue.precioTotal}
+                value={formValue.totalPrice}
                 onChange={handleChange}
               />
             </div>
-            <div className="form-group">
-              <label>Código postal</label>
-              <input
-                type="number"
-                name="codigoPostal"
-                className="form-control"
-                value={formValue.codigoPostal}
-                onChange={handleChange}
-              />
-            </div>
-
             <div className="form-group">
               <label>Descripción</label>
               <textarea
                 type="text"
-                name="descripcion"
+                name="description"
                 className="form-control"
-                value={formValue.descripcion}
+                value={formValue.description}
                 onChange={handleChange}
               />
-            </div>
-            <div className="form-group">
-              <label>Producto</label>
-              <select
-                className="form-select"
-                name="producto"
-                value={formValue.product}
-                onChange={handleChange}
-                required
-              >
-                {products.map((product) => (
-                  <option key={product._id} value={product._id}>
-                    {product.nombre}
-                  </option>
-                ))}
-              </select>
             </div>
             <div className="form-group">
               <label>Estado</label>
               <select
                 className="form-select"
-                name="estado"
+                name="status"
                 aria-label="Default select example"
-                value={formValue.estado}
+                value={formValue.status}
                 onChange={handleChange}
                 required
               >
@@ -235,10 +204,10 @@ const ModalOrders = ({ show, handleClose, actualizar }) => {
               <input
                 className="form-check-input"
                 type="checkbox"
-                checked={formValue.pedidoActivo}
-                value={formValue.pedidoActivo}
+                checked={formValue.activeOrder}
+                value={formValue.activeOrder}
                 onChange={handleChange}
-                name="pedidoActivo"
+                name="activeOrder"
               />
               <label>Pedido Activo</label>
             </div>

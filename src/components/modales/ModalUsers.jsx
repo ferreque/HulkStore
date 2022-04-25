@@ -4,9 +4,12 @@ import { Modal, Button } from "react-bootstrap";
 const ModalUser = ({ show, handleClose }) => {
   const [loading, setLoading] = useState(false);
   const [formValue, setFormValue] = useState({
-    nombre: "",
+    name: "",
     email: "",
     password: "",
+    province: "",
+    location: "",
+    shippingAddress: "",
     rol: "",
   });
 
@@ -29,9 +32,12 @@ const ModalUser = ({ show, handleClose }) => {
       }
       setLoading(false);
       setFormValue({
-        nombre: "",
+        name: "",
         email: "",
         password: "",
+        province: "",
+        location: "",
+        shippingAddress: "",
         rol: "",
       });
       handleClose();
@@ -50,11 +56,11 @@ const ModalUser = ({ show, handleClose }) => {
               <label>Nombre</label>
               <input
                 type="text"
-                name="nombre"
+                name="name"
                 className="form-control"
                 placeholder="Ej: Juan Peralta"
                 required
-                value={formValue.nombre}
+                value={formValue.name}
                 onChange={handleChange}
               />
             </div>
@@ -79,6 +85,42 @@ const ModalUser = ({ show, handleClose }) => {
                 autoComplete="off"
                 required
                 value={formValue.password}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Provincia</label>
+              <input
+                type="text"
+                name="province"
+                className="form-control"
+                placeholder="Ej: Tucumán"
+                required
+                value={formValue.province}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Localidad</label>
+              <input
+                type="text"
+                name="location"
+                className="form-control"
+                placeholder="Ej: Chicligasta"
+                required
+                value={formValue.location}
+                onChange={handleChange}
+              />
+            </div>
+            <div className="form-group">
+              <label>Dirección</label>
+              <input
+                type="text"
+                name="shippingAddress"
+                className="form-control"
+                placeholder="Ej: Lavalle 952"
+                required
+                value={formValue.shippingAddress}
                 onChange={handleChange}
               />
             </div>

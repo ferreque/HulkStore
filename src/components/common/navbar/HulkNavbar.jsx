@@ -1,17 +1,25 @@
-import React from "react";
-
-const cerrarSesion = () => {
-  localStorage.setItem("auth", JSON.stringify(""));
-};
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 
 export const HulkNavbar = () => {
+  const navigate = useNavigate();
+  const [state, setState] = useState({ rol: "" });
+  useEffect(() => {
+    const datos = JSON.parse(localStorage.getItem("auth")) || [];
+    setState(datos.user);
+  }, []);
+  const cerrarSesion = () => {
+    localStorage.setItem("auth", JSON.stringify(""));
+    const redireccion = () => navigate("../", { replace: true });
+    redireccion();
+  };
   return (
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-      <a class="navbar-brand" href="#">
+    <nav className="navbar navbar-expand-lg navbar-light bg-light">
+      <a className="navbar-brand" href="/">
         HulkStore
       </a>
       <button
-        class="navbar-toggler"
+        className="navbar-toggler"
         type="button"
         data-toggle="collapse"
         data-target="#navbarNavAltMarkup"
@@ -19,30 +27,24 @@ export const HulkNavbar = () => {
         aria-expanded="false"
         aria-label="Toggle navigation"
       >
-        <span class="navbar-toggler-icon"></span>
+        <span className="navbar-toggler-icon"></span>
       </button>
-      <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-        <div class="navbar-nav">
-          <a class="nav-link active" href="#">
-            Comics <span class="sr-only">(current)</span>
+      <div className="collapse navbar-collapse" id="navbarNavAltMarkup">
+        <div className="navbar-nav">
+          <a className="nav-link active" href="/">
+            INICIO
           </a>
-          <a class="nav-link" href="#">
-            Juguetes
-          </a>
-          <a class="nav-link" href="#">
-            Accesorios
-          </a>
-          <a class="nav-link" href="/carrito">
-            Carrito
-          </a>
-
-          <a class="nav-link disable" href="/admin">
-            Admin
-          </a>
-          <form class="form-inline my-2 my-lg-0 ">
+          {state.rol === "ADMIN_ROLE" ? (
+            <a className="nav-link disable" href="/admin">
+              Admin
+            </a>
+          ) : (
+            ""
+          )}
+          <form className="form-inline my-2 my-lg-0 ">
             <button
               onClick={cerrarSesion}
-              class="btn btn-outline-success my-2 my-sm-0"
+              className="btn btn-outline-success my-2 my-sm-0"
               type="submit"
             >
               Cerrar Sesión
