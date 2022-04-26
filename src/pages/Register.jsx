@@ -1,8 +1,8 @@
 import React, { useState } from "react";
+import { mensajeCofirm, mensajeError } from "../helpers/swal";
 import { Form, Container, Button, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 import { postUsers } from "../helpers/users";
-import Swal from "sweetalert2";
 
 const Registro = () => {
   const navigate = useNavigate();
@@ -29,32 +29,20 @@ const Registro = () => {
       if (formValue.password === formValue.password2) {
         postUsers(formValue).then((respuesta) => {
           if (respuesta.errors) {
-            return Swal.fire({
-              title: respuesta.errors[0].msg,
-              icon: "error",
-              confirmButtonColor: "#3085d6",
-            });
+            return mensajeError(respuesta.errors[0].msg);
           }
           if (respuesta.msg) {
-            window.alert(respuesta.msg);
+            mensajeCofirm(respuesta.msg);
             setTimeout(() => {
               navigate("../login", { replace: true });
             }, 1500);
           }
         });
       } else {
-        return Swal.fire({
-          title: "Las constraseñas deben ser iguales",
-          icon: "error",
-          cancelButtonColor: "#d33",
-        });
+        return mensajeError("Las constraseñas deben ser iguales");
       }
     } else {
-      return Swal.fire({
-        title: "Debe completar todos los campos",
-        icon: "warning",
-        cancelButtonColor: "#d33",
-      });
+      return mensajeError("Debe completar todos los campos");
     }
   };
   return (

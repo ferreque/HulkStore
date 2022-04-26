@@ -33,7 +33,6 @@ export const postOrders = async (data) => {
       "x-token": JSON.parse(localStorage.getItem("auth")).token,
     },
   });
-  console.log(respuesta);
   const datos = await respuesta.json();
 
   return datos;

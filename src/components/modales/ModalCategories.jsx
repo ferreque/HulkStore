@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-
+import { mensajeCofirm, mensajeError } from "../../helpers/swal";
 import { Modal, Button } from "react-bootstrap";
 import {
   getCategorie,
@@ -41,10 +41,10 @@ const ModalCategories = ({ show, handleClose, actualizar }) => {
       putCategories(actualizar, formValue).then((respuesta) => {
         if (respuesta.errors) {
           setLoading(false);
-          return window.alert(respuesta.errors[0].msg);
+          return mensajeError(respuesta.errors[0].msg);
         }
         if (respuesta.msg) {
-          window.alert(respuesta.msg);
+          mensajeCofirm(respuesta.msg);
         }
         setLoading(false);
         setFormValue({
@@ -56,10 +56,10 @@ const ModalCategories = ({ show, handleClose, actualizar }) => {
       postCategories(formValue).then((respuesta) => {
         if (respuesta.errors) {
           setLoading(false);
-          return window.alert(respuesta.errors[0].msg);
+          return mensajeError(respuesta.errors[0].msg);
         }
         if (respuesta.msg) {
-          window.alert(respuesta.msg);
+          mensajeCofirm(respuesta.msg);
         }
         setLoading(false);
         setFormValue({

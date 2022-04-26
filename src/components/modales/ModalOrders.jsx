@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from "react";
 import { Modal, Button } from "react-bootstrap";
-
 import { getOrder, postOrders, putOrders } from "../../helpers/orders";
 import { getProducts } from "../../helpers/products";
 

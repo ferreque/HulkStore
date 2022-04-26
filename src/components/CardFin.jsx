@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Swal from "sweetalert2";
+import { mensajeCofirm, mensajeError } from "../helpers/swal";
 import { Form, Card, Container, Button, Image } from "react-bootstrap";
 import { postOrders } from "../helpers/orders";
 import { useNavigate } from "react-router-dom";
@@ -30,7 +30,6 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
   };
   const confirmarPedido = () => {
     let stockNegativo;
-    console.log(user);
     let orden = {
       products: carrito,
       location: user.location,
@@ -40,19 +39,13 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
     };
     carrito.forEach((product) => {
       product.stock -= product.amount;
-      console.log(product.stock);
       if (product.stock < 0) {
         stockNegativo = "si";
-        // setContinuo(continuo);
-
-        Swal.fire({
-          title: `Stock insuficiente, solo quedan ${
+        mensajeError(
+          `Stock insuficiente, solo quedan ${
             product.stock + product.amount
-          } unidades de ${product.name}`,
-          icon: "error",
-          confirmButtonColor: "#3085d6",
-        });
-
+          } unidades de ${product.name}`
+        );
         const redireccion = () => navigate("../", { replace: true });
         localStorage.setItem("carrito", JSON.stringify([]));
         return redireccion();
@@ -64,28 +57,17 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
         putProducts(product._id, product).then((respuesta) => {
           if (respuesta.errors) {
             return window.alert(respuesta.errors[0].msg);
-          } else {
-            Swal.fire({
-              title: "Stock de producto editado",
-              icon: "success",
-              confirmButtonColor: "#3085d6",
-            });
           }
         });
       });
     }
 
     if (stockNegativo !== "si") {
-      console.log(orden);
       postOrders(orden).then((respuesta) => {
         if (respuesta.errors) {
           return window.alert(respuesta.errors[0].msg);
         } else {
-          Swal.fire({
-            title: "Pedido confirmado",
-            icon: "success",
-            confirmButtonColor: "#3085d6",
-          });
+          mensajeCofirm("Pedido confirmado");
           const redireccion = () => navigate("../", { replace: true });
           redireccion();
           localStorage.setItem("carrito", JSON.stringify([]));

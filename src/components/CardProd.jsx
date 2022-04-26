@@ -1,5 +1,5 @@
 import React from "react";
-import Swal from "sweetalert2";
+import { mensajeCofirm, mensajeError } from "../helpers/swal";
 const CardProd = ({ products }) => {
   let lista = JSON.parse(localStorage.getItem("carrito")) || [];
 
@@ -13,11 +13,7 @@ const CardProd = ({ products }) => {
       lista.push(prod);
       localStorage.setItem("carrito", JSON.stringify(lista));
     }
-    Swal.fire({
-      title: "Producto agregado al carrito",
-      icon: "success",
-      confirmButtonColor: "#3085d6",
-    });
+    mensajeCofirm("Producto agregado al carrito");
   };
   return (
     <>
