@@ -9,7 +9,6 @@ const Carrito = () => {
   let pedido = [];
   let carrito = JSON.parse(localStorage.getItem("carrito")) || [];
   const [pedidos, setPedidos] = useState([]);
-  const [eco, setEco] = useState(true);
   const [loadVisible, setLoadVisible] = useState(true);
   const [btnDisable, setBtnDisable] = useState(true);
 
@@ -50,7 +49,6 @@ const Carrito = () => {
         />
         <CardFin
           pedidos={pedidos}
-          setEco={setEco}
           setPedidos={setPedidos}
           btnDisable={btnDisable}
           setBtnDisable={setBtnDisable}

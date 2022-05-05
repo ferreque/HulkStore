@@ -14,19 +14,25 @@ export const HulkFooter = () => {
               <img src={hulklogo} className="marca-foot" alt="logo footer" />
             </div>
             <div className="col-12 col-md-4 mb-4 mb-md-2 d-flex align-items-center justify-content-center">
-              <a href="./error" className=" redes">
-                <i className="mx-2" aria-hidden="true">
-                  <IoLogoFacebook style={{ fontSize: 40 }} />
+              <a href="./error">
+                <i className="mx-2 text-muted" aria-hidden="true">
+                  <IoLogoFacebook className=" redes" style={{ fontSize: 40 }} />
                 </i>
               </a>
-              <a href="./error" className=" redes">
-                <i className="mx-2" aria-hidden="true">
-                  <AiOutlineInstagram style={{ fontSize: 40 }} />
+              <a href="./error">
+                <i className="mx-2 text-muted" aria-hidden="true">
+                  <AiOutlineInstagram
+                    className=" redes"
+                    style={{ fontSize: 40 }}
+                  />
                 </i>
               </a>
-              <a href="./error" className=" redes">
-                <i className="mx-2" aria-hidden="true">
-                  <AiFillTwitterCircle style={{ fontSize: 40 }} />
+              <a href="./error">
+                <i className="mx-2 text-muted" aria-hidden="true">
+                  <AiFillTwitterCircle
+                    className=" redes"
+                    style={{ fontSize: 40 }}
+                  />
                 </i>
               </a>
             </div>
@@ -40,7 +46,7 @@ export const HulkFooter = () => {
           </div>
           <div className="row">
             <div className="col-12 text-center mb-4">
-              <a href="./nosotros" className="redes-nosotros">
+              <a href="./error" className="redes-nosotros text-muted">
                 SOBRE NOSOTROS
               </a>
             </div>

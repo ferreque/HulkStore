@@ -5,6 +5,7 @@ export const getProducts = async () => {
     method: "GET",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
+      "x-token": JSON.parse(localStorage.getItem("auth")).token,
     },
   });
   const datos = await respuesta.json();
@@ -16,6 +17,7 @@ export const getProduct = async (id) => {
     method: "GET",
     headers: {
       "Content-type": "application/json; charset=UTF-8",
+      "x-token": JSON.parse(localStorage.getItem("auth")).token,
     },
   });
   const datos = await respuesta.json();

@@ -1,14 +1,22 @@
 import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import { getProducts } from "../helpers/products";
 import { HulkNavbar } from "../components/common/navbar/HulkNavbar";
 import CardProd from "../components/CardProd";
 
 const Inicio = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([]);
 
   useEffect(() => {
     getProducts().then((respuesta) => {
-      setProducts(respuesta.products);
+      if (respuesta.products) {
+        setProducts(respuesta.products);
+      } else {
+        setTimeout(() => {
+          navigate("../login", { replace: true });
+        }, 1500);
+      }
     });
   }, []);
 
@@ -72,7 +80,10 @@ const Inicio = () => {
             >
               Otros
             </a>
-            <a className="nav-link text-dark bg-warning " href="/carrito">
+            <a
+              className="nav-link text-dark bg-warning carrito"
+              href="/carrito"
+            >
               Carrito
             </a>
           </div>

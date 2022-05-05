@@ -1,33 +1,26 @@
 import React, { useEffect, useState } from "react";
 import { mensajeCofirm, mensajeError } from "../helpers/swal";
-import { Form, Card, Container, Button, Image } from "react-bootstrap";
+import { Card, Container, Button, Image } from "react-bootstrap";
 import { postOrders } from "../helpers/orders";
 import { useNavigate } from "react-router-dom";
 import { putProducts } from "../helpers/products";
 
-const token =
-  JSON.parse(localStorage.getItem("auth")) &&
-  JSON.parse(localStorage.getItem("auth")).token;
-
-const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
+const CardFin = ({ pedidos, setPedidos, btnDisable }) => {
   const [total, setTotal] = useState(0);
-  useEffect(() => {
-    setEco(true);
-    setTotal(sumaTotal);
-    setEco(false);
-  });
   const navigate = useNavigate();
   const user = JSON.parse(localStorage.getItem("auth")).user;
   const carrito = JSON.parse(localStorage.getItem("carrito"));
+
+  useEffect(() => {
+    setTotal(sumaTotal);
+  });
+
   let sumaTotal = 0;
 
   for (let i = 0; i < carrito.length; i++) {
     sumaTotal += carrito[i].price * carrito[i].amount;
   }
 
-  const getRandomNumberBetween = (min, max) => {
-    return Math.floor(Math.random() * (max - min + 1) + min);
-  };
   const confirmarPedido = () => {
     let stockNegativo;
     let orden = {
@@ -76,6 +69,21 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
     }
   };
 
+  const borrarProducto = (pedido) => {
+    const _pedidos = JSON.parse(localStorage.getItem("carrito")) || [];
+    const filt = localStorage.setItem(
+      "carrito",
+      JSON.stringify(
+        _pedidos.map((prod) => prod).filter((prod) => prod._id !== pedido._id)
+      )
+    );
+    setPedidos(pedidos.filter((prod) => pedido._id !== prod._id));
+  };
+
+  const getRandomNumberBetween = (min, max) => {
+    return Math.floor(Math.random() * (max - min + 1) + min);
+  };
+
   return (
     <Container className="text-center row">
       {carrito.map((pedido, index) => (
@@ -87,19 +95,6 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
             <Image className="card-carrito" src={pedido.imagen} />
             <Card.Title className="mb-2">{pedido.name}</Card.Title>
             <Card.Text>$ {pedido.price}</Card.Text>
-            <Form>
-              <Form.Control
-                onChange={(e) => {
-                  pedidos[index] = { ...pedido, notas: e.target.value };
-                  setPedidos(pedidos);
-                }}
-                label="Comments"
-                as="textarea"
-                maxLength="150"
-                placeholder="¿Nos queres aclarar algo sobre tu pedido?"
-                style={{ height: "100px" }}
-              />
-            </Form>
             <Card.Text>
               <h5>Cantidad: {pedido.amount}</h5>
             </Card.Text>
@@ -107,17 +102,7 @@ const CardFin = ({ pedidos, setEco, setPedidos, btnDisable }) => {
           <Button
             className="mb-4 pull-right mt-3"
             variant="light"
-            onClick={() => {
-              const _pedidos =
-                JSON.parse(localStorage.getItem("carrito")) || [];
-              const filt = localStorage.setItem(
-                "carrito",
-                JSON.stringify(
-                  _pedidos.map((e) => e).filter((e) => e._id !== pedido._id)
-                )
-              );
-              setPedidos(pedidos.filter((e) => pedido._id !== e._id));
-            }}
+            onClick={() => borrarProducto(pedido)}
           >
             BORRAR
           </Button>
