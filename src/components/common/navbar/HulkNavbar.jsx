@@ -44,7 +44,7 @@ export const HulkNavbar = () => {
 
           <button
             onClick={cerrarSesion}
-            className="btn btn-outline-success my-2 my-sm-0 justify-content-end"
+            className="btn btn-outline-danger my-2 my-sm-0 justify-content-end"
             id="cerrarSesion"
             type="submit"
           >

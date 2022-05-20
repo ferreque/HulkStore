@@ -32,6 +32,7 @@ const Inicio = () => {
   return (
     <>
       <HulkNavbar />
+
       <div className="navbar navbar-expand-lg navbar-dark bg-dark">
         <div>
           <div className="navbar-nav">
@@ -39,7 +40,7 @@ const Inicio = () => {
               TODOS
             </a>
             <a
-              className="nav-link "
+              className="nav-link"
               role="button"
               onClick={() => filtro("Comics")}
             >
@@ -80,11 +81,12 @@ const Inicio = () => {
             >
               Otros
             </a>
-            <a
-              className="nav-link text-dark bg-warning carrito"
-              href="/carrito"
-            >
-              Carrito
+            <a href="/carrito">
+              <img
+                className="carrito"
+                src="https://cdn.icon-icons.com/icons2/909/PNG/512/shopping-cart_icon-icons.com_70870.png"
+                alt="carrito"
+              />
             </a>
           </div>
         </div>
